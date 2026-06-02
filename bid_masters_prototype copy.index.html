@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BID-Masters of Georgia, Inc. — Website Prototype</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --charcoal:#0f1318;
+  --steel:#1e2b3c;
+  --steel2:#243447;
+  --orange:#e8611a;
+  --orange2:#f47c3c;
+  --gold:#f0a830;
+  --light:#f0ece4;
+  --muted:#7a8799;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Barlow',sans-serif;background:var(--charcoal);color:var(--light);overflow-x:hidden}
+
+.proto-banner{background:linear-gradient(90deg,var(--orange),#c97d1a);padding:0.45rem 1rem;text-align:center;font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;color:#fff;font-weight:700}
+
+/* ── NAV WRAPPER holds nav + drawer together ── */
+.nav-wrapper{position:sticky;top:0;z-index:999}
+
+nav{background:rgba(15,19,24,0.98);border-bottom:1px solid rgba(232,97,26,0.3);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo-main{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:0.1em;color:var(--orange);line-height:1}
+.logo-sub{font-size:0.58rem;color:var(--muted);letter-spacing:0.15em;text-transform:uppercase}
+
+/* desktop links */
+.nav-links{display:flex;list-style:none;gap:0}
+.nav-links a{display:block;padding:0.4rem 0.8rem;font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);text-decoration:none;transition:color 0.2s}
+.nav-links a:hover{color:var(--light)}
+.nav-right{display:flex;align-items:center;gap:0.7rem}
+.nav-phone-txt{font-family:'Barlow Condensed',sans-serif;font-size:0.85rem;color:var(--gold);letter-spacing:0.05em}
+.desk-cta{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;padding:0.45rem 1rem;border:none;border-radius:3px;font-family:'Barlow Condensed',sans-serif;font-size:0.78rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;cursor:pointer;white-space:nowrap}
+
+/* hamburger button */
+.hbtn{display:none;background:none;border:none;cursor:pointer;padding:6px;margin-left:4px;-webkit-tap-highlight-color:transparent}
+.hbtn span{display:block;width:26px;height:2px;background:var(--light);border-radius:2px;margin:5px 0;transition:transform 0.3s,opacity 0.3s}
+.hbtn.is-open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hbtn.is-open span:nth-child(2){opacity:0}
+.hbtn.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+/* mobile drawer — part of sticky nav-wrapper, so it scrolls with sticky */
+.drawer{background:rgba(10,15,22,0.99);border-bottom:2px solid rgba(232,97,26,0.25);max-height:0;overflow:hidden;transition:max-height 0.35s ease}
+.drawer.is-open{max-height:420px}
+.drawer-inner{padding:0.5rem 1.5rem 1.5rem}
+.drawer-inner a{display:block;padding:0.85rem 0;font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--light);text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.07)}
+.drawer-phone{text-align:center;margin:1rem 0 0.5rem;font-family:'Barlow Condensed',sans-serif;font-size:1.1rem;color:var(--gold);letter-spacing:0.05em}
+.drawer-cta{display:block;width:100%;padding:0.9rem;background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border:none;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;cursor:pointer;text-align:center;margin-top:0.5rem;-webkit-tap-highlight-color:transparent}
+
+/* HERO */
+.hero{background:linear-gradient(150deg,var(--charcoal) 0%,var(--steel) 40%,#0d1520 100%);padding:3rem 1.5rem 2.5rem;position:relative;overflow:hidden}
+.hero-glow{position:absolute;top:0;right:0;width:60%;height:100%;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(232,97,26,0.12) 0%,transparent 65%);pointer-events:none}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(232,97,26,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(232,97,26,0.04) 1px,transparent 1px);background-size:50px 50px;pointer-events:none}
+.hero-inner{position:relative;z-index:2}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:0.5rem;margin-bottom:1rem}
+.hero-line{width:2rem;height:2px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:1px}
+.eye-txt{font-family:'Barlow Condensed',sans-serif;font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange)}
+.hero h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.8rem,9vw,5rem);line-height:0.95;letter-spacing:0.04em;color:#fff;margin-bottom:0.3rem}
+.hero h1 em{color:var(--orange);font-style:normal;display:block}
+.hero-tag{font-family:'Barlow Condensed',sans-serif;font-size:clamp(0.82rem,2.5vw,1rem);font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem}
+.hero-desc{font-size:clamp(0.88rem,2.5vw,1rem);color:var(--muted);line-height:1.65;margin-bottom:2rem;font-weight:300}
+.hero-btns{display:flex;gap:0.8rem;flex-wrap:wrap;margin-bottom:2rem}
+.btn-p{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;padding:0.9rem 1.6rem;border:none;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.92rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;cursor:pointer;flex:1;min-width:130px;-webkit-tap-highlight-color:transparent}
+.btn-g{background:transparent;color:var(--light);padding:0.9rem 1.6rem;border:1.5px solid rgba(255,255,255,0.25);border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.92rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;cursor:pointer;flex:1;min-width:130px;-webkit-tap-highlight-color:transparent}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0.7rem;margin-bottom:1.5rem}
+.hstat{border-left:2px solid var(--orange);padding-left:0.75rem}
+.hstat-num{font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:#fff;line-height:1}
+.hstat-lbl{font-size:0.62rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em}
+.hero-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:0.6rem}
+.hbadge{background:rgba(30,43,60,0.7);border:1px solid rgba(232,97,26,0.2);border-radius:6px;padding:0.8rem;text-align:center}
+.hbadge-icon{font-size:1.2rem;margin-bottom:0.25rem}
+.hbadge-title{font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--orange);line-height:1.2}
+.hbadge-sub{font-size:0.65rem;color:var(--muted);margin-top:2px}
+
+/* TRUST BAR */
+.trust-bar{background:linear-gradient(90deg,#1a2535,var(--steel2),#1a2535);padding:0.8rem 1.5rem;display:flex;gap:1.2rem;overflow-x:auto;-webkit-overflow-scrolling:touch;border-top:1px solid rgba(232,97,26,0.15);border-bottom:1px solid rgba(232,97,26,0.1)}
+.trust-bar::-webkit-scrollbar{display:none}
+.titem{display:flex;align-items:center;gap:0.4rem;font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);white-space:nowrap;flex-shrink:0}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--orange)}
+
+/* GENERIC SECTION */
+.sec{padding:3rem 1.5rem}
+.sec-eyebrow{display:flex;align-items:center;gap:0.6rem;margin-bottom:0.4rem}
+.sec-line{width:1.8rem;height:2px;background:linear-gradient(90deg,var(--orange),var(--gold));border-radius:1px}
+.sec-eye{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--orange)}
+.sec-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(1.8rem,6vw,2.5rem);letter-spacing:0.04em;color:#fff;line-height:1;margin-bottom:0.5rem}
+.sec-title span{color:var(--orange)}
+.sec-desc{font-size:0.9rem;color:var(--muted);line-height:1.6;margin-bottom:2rem;font-weight:300}
+
+/* SERVICES */
+.svc-section{background:linear-gradient(180deg,var(--charcoal),#12181f)}
+.stabs{display:flex;gap:0.4rem;margin-bottom:1.5rem;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+.stabs::-webkit-scrollbar{display:none}
+.stab{background:transparent;border:1px solid rgba(255,255,255,0.12);border-radius:3px;padding:0.4rem 0.9rem;font-family:'Barlow Condensed',sans-serif;font-size:0.72rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+.stab.active{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;border-color:transparent}
+.tab-panel{display:none}
+.tab-panel.active{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,190px),1fr));gap:0.9rem}
+.svc-card{background:linear-gradient(145deg,rgba(30,43,60,0.8),rgba(22,28,38,0.95));border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:1.2rem;cursor:pointer;position:relative;overflow:hidden}
+.svc-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--orange),var(--gold));opacity:0;transition:opacity 0.25s}
+.svc-card:active::after,.svc-card:hover::after{opacity:1}
+.svc-icon{font-size:1.4rem;margin-bottom:0.6rem}
+.svc-card h3{font-family:'Barlow Condensed',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#fff;margin-bottom:0.3rem}
+.svc-card p{font-size:0.76rem;color:var(--muted);line-height:1.5}
+.svc-q{display:inline-block;margin-top:0.6rem;font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--orange)}
+
+/* WHY US */
+.why-sec{background:linear-gradient(160deg,var(--steel),#1a2535,var(--charcoal))}
+.why-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:1.2rem}
+.why-card{background:rgba(15,19,24,0.5);border:1px solid rgba(232,97,26,0.12);border-radius:8px;padding:1.5rem}
+.why-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:var(--orange);line-height:1;margin-bottom:0.5rem}
+.why-card h3{font-family:'Barlow Condensed',sans-serif;font-size:1rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#fff;margin-bottom:0.4rem}
+.why-card p{font-size:0.82rem;color:var(--muted);line-height:1.6}
+.highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,160px),1fr));gap:0.4rem;margin-top:1.8rem}
+.hl{display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;color:var(--light);padding:0.45rem 0.7rem;background:rgba(232,97,26,0.07);border:1px solid rgba(232,97,26,0.15);border-radius:4px}
+.hl-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+/* ESTIMATOR */
+.est-sec{background:linear-gradient(155deg,#0a0e14,#13202f,#0d1520);padding:3rem 1.5rem;border-top:1px solid rgba(232,97,26,0.2);border-bottom:1px solid rgba(232,97,26,0.2)}
+.est-header{text-align:center;margin-bottom:2rem}
+.free-badge{display:inline-block;background:linear-gradient(90deg,var(--orange),var(--orange2));color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;padding:0.28rem 0.9rem;border-radius:2px;margin-bottom:0.6rem}
+.est-form{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.fg{display:flex;flex-direction:column;gap:0.35rem}
+.fg.full{grid-column:1/-1}
+.flabel{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold)}
+.finput{background:rgba(255,255,255,0.05);border:1px solid rgba(232,97,26,0.2);border-radius:4px;padding:0.7rem 0.9rem;color:#fff;font-family:'Barlow',sans-serif;font-size:16px;outline:none;transition:border-color 0.2s;width:100%;-webkit-appearance:none;appearance:none}
+.finput:focus{border-color:var(--orange)}
+.finput option{background:#131c28;color:#fff}
+.scope-sec{grid-column:1/-1}
+.scope-title{font-family:'Barlow Condensed',sans-serif;font-size:0.68rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:0.7rem}
+.scope-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,165px),1fr));gap:0.5rem}
+.scope-item{display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--light);cursor:pointer;padding:0.4rem 0;-webkit-tap-highlight-color:transparent}
+.scope-item input{accent-color:var(--orange);width:18px;height:18px;flex-shrink:0}
+.range-sec{grid-column:1/-1}
+.range-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem}
+.range-val{font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;font-weight:700;color:var(--orange)}
+input[type=range]{width:100%;accent-color:var(--orange);cursor:pointer;height:6px;-webkit-appearance:none;appearance:none;background:rgba(255,255,255,0.1);border-radius:3px;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;background:var(--orange);cursor:pointer}
+.est-result{display:none;grid-column:1/-1;background:linear-gradient(135deg,rgba(30,43,60,0.9),rgba(13,20,28,0.98));border:1px solid var(--orange);border-radius:8px;padding:1.5rem;margin-top:0.5rem}
+.est-result.show{display:block}
+.result-top{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem;margin-bottom:1.2rem}
+.ritem{text-align:center;padding:0.8rem;background:rgba(255,255,255,0.03);border-radius:6px;border:1px solid rgba(255,255,255,0.06)}
+.r-label{font-family:'Barlow Condensed',sans-serif;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:0.25rem}
+.r-val{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--gold);line-height:1}
+.result-note{font-size:0.8rem;color:var(--muted);line-height:1.6;border-top:1px solid rgba(232,97,26,0.2);padding-top:0.8rem;margin-top:0.5rem}
+.phase-bar{margin:0.8rem 0 0.3rem}
+.phase-label{display:flex;justify-content:space-between;font-family:'Barlow Condensed',sans-serif;font-size:0.62rem;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:0.35rem}
+.phase-track{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.phase-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--orange),var(--gold));transition:width 0.5s ease}
+.submit-row{grid-column:1/-1;display:flex;flex-direction:column;gap:0.7rem;margin-top:0.8rem}
+.btn-est{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;padding:1rem;border:none;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:1rem;letter-spacing:0.12em;text-transform:uppercase;font-weight:700;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
+.btn-rst{background:transparent;color:var(--muted);padding:0.8rem;border:1px solid rgba(255,255,255,0.12);border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:0.82rem;letter-spacing:0.08em;text-transform:uppercase;cursor:pointer;width:100%;-webkit-tap-highlight-color:transparent}
+
+/* AVAILABILITY */
+.avail-sec{background:linear-gradient(180deg,#161c26,var(--charcoal))}
+.avail-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:0.35rem;margin-top:1.2rem}
+.avail-day{background:rgba(30,43,60,0.6);border:1px solid rgba(255,255,255,0.06);border-radius:6px;padding:0.65rem 0.25rem;text-align:center}
+.avail-day.open{border-color:rgba(232,97,26,0.2)}
+.avail-day.closed{opacity:0.4}
+.day-name{font-family:'Barlow Condensed',sans-serif;font-size:0.6rem;letter-spacing:0.06em;text-transform:uppercase;color:var(--muted);margin-bottom:0.2rem}
+.day-hours{font-size:0.6rem;color:var(--light);line-height:1.35}
+.day-badge{display:inline-block;margin-top:0.25rem;padding:0.1rem 0.35rem;border-radius:2px;font-family:'Barlow Condensed',sans-serif;font-size:0.5rem;letter-spacing:0.06em;text-transform:uppercase}
+.badge-open{background:rgba(232,97,26,0.15);color:var(--orange)}
+.badge-closed{background:rgba(255,255,255,0.05);color:var(--muted)}
+
+/* CONTACT */
+.contact-sec{background:linear-gradient(135deg,var(--orange) 0%,#b8490f 40%,var(--charcoal) 100%);padding:3rem 1.5rem;position:relative;overflow:hidden}
+.contact-inner{position:relative;z-index:2}
+.contact-info{display:flex;flex-direction:column;gap:1.2rem;margin-top:1.2rem}
+.cinfo-label{font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.15em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-bottom:2px}
+.cinfo-val{font-family:'Barlow Condensed',sans-serif;font-size:0.95rem;font-weight:700;color:#fff}
+.call-btn{display:block;width:100%;margin-top:1.5rem;padding:1rem;background:#fff;color:var(--orange);border:none;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:1.05rem;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;text-align:center;cursor:pointer;text-decoration:none;-webkit-tap-highlight-color:transparent}
+
+/* FOOTER */
+footer{background:#07090d;padding:1.5rem;border-top:2px solid var(--orange)}
+.footer-inner{display:flex;flex-direction:column;gap:0.9rem;text-align:center}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:0.1em;color:var(--orange)}
+.footer-logo span{display:block;font-size:0.58rem;color:var(--muted);letter-spacing:0.12em;text-transform:uppercase;font-family:'Barlow Condensed',sans-serif}
+.footer-mid{font-size:0.75rem;color:var(--muted);line-height:1.7}
+.footer-mid a{color:var(--gold);text-decoration:none}
+.footer-copy{font-size:0.68rem;color:var(--muted)}
+.footer-copy span{color:rgba(255,255,255,0.2);font-size:0.6rem;display:block}
+
+/* ── RESPONSIVE ── */
+@media(min-width:768px){
+  nav{padding:0 2rem}
+  .hbtn{display:none!important}
+  .drawer{display:none!important}
+  .nav-links{display:flex!important}
+  .nav-phone-txt,.desk-cta{display:flex!important}
+  .hero{padding:4.5rem 2.5rem 3.5rem}
+  .hero-badges{grid-template-columns:repeat(4,1fr)}
+  .sec{padding:4rem 2.5rem}
+  .est-sec{padding:4rem 2.5rem}
+  .contact-sec{padding:4rem 2.5rem}
+  .result-top{grid-template-columns:repeat(4,1fr)}
+  .submit-row{flex-direction:row;justify-content:center}
+  .btn-est,.btn-rst{width:auto;padding:0.9rem 2rem}
+  .contact-info{flex-direction:row;flex-wrap:wrap;gap:2rem}
+  .footer-inner{flex-direction:row;justify-content:space-between;align-items:center;text-align:left}
+  .trust-bar{justify-content:center}
+}
+@media(max-width:767px){
+  .nav-links{display:none}
+  .nav-phone-txt{display:none}
+  .desk-cta{display:none}
+  .hbtn{display:flex!important;flex-direction:column;justify-content:center}
+  .est-form{grid-template-columns:1fr}
+  .fg.full{grid-column:1/-1}
+  .avail-grid{grid-template-columns:repeat(4,1fr)}
+  .avail-day:nth-child(5),.avail-day:nth-child(6),.avail-day:nth-child(7){display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="proto-banner">⚙ Website Prototype — Design Review Only · BID-Masters of Georgia, Inc.</div>
+
+<!-- NAV WRAPPER (sticky container for both nav bar + drawer) -->
+<div class="nav-wrapper">
+  <nav>
+    <div>
+      <div class="logo-main">BID-Masters of Georgia</div>
+      <div class="logo-sub">Johns Creek, GA · Licensed & Certified</div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#">Home</a></li>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#">Portfolio</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+
+    <div class="nav-right">
+      <span class="nav-phone-txt">📞 (678) 525-2506</span>
+      <button class="desk-cta" onclick="scrollTo('estimator')">Free Estimate</button>
+      <!-- HAMBURGER -->
+      <button class="hbtn" id="hbtn" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- DRAWER lives inside sticky wrapper so it sticks with nav -->
+  <div class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-inner">
+      <a href="#" onclick="closeDrawer()">Home</a>
+      <a href="#services" onclick="closeDrawer()">Services</a>
+      <a href="#" onclick="closeDrawer()">Portfolio</a>
+      <a href="#contact" onclick="closeDrawer()">Contact</a>
+      <div class="drawer-phone">📞 (678) 525-2506</div>
+      <button class="drawer-cta" onclick="closeDrawer();scrollTo('estimator')">Get Free Estimate</button>
+    </div>
+  </div>
+</div><!-- /nav-wrapper -->
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow"><div class="hero-line"></div><span class="eye-txt">Johns Creek, Georgia · Licensed & Certified</span></div>
+    <h1>BID<em>Masters</em>of Georgia</h1>
+    <div class="hero-tag">Building Impeccable Designs by Masters of Their Trades</div>
+    <p class="hero-desc">35 years of industry experience. Construction-degreed team. Residential and light commercial projects delivered from concept to completion — on time, on budget, zero compromise.</p>
+    <div class="hero-stats">
+      <div class="hstat"><div class="hstat-num">35+</div><div class="hstat-lbl">Years Exp.</div></div>
+      <div class="hstat"><div class="hstat-num">22</div><div class="hstat-lbl">Services</div></div>
+      <div class="hstat"><div class="hstat-num">100%</div><div class="hstat-lbl">Satisfaction</div></div>
+    </div>
+    <div class="hero-btns">
+      <button class="btn-p" onclick="scrollTo('estimator')">Get Free Estimate</button>
+      <button class="btn-g" onclick="scrollTo('services')">View Services</button>
+    </div>
+    <div class="hero-badges">
+      <div class="hbadge"><div class="hbadge-icon">🏆</div><div class="hbadge-title">Certified Contractors</div><div class="hbadge-sub">Licensed & Insured</div></div>
+      <div class="hbadge"><div class="hbadge-icon">💳</div><div class="hbadge-title">Cards Accepted</div><div class="hbadge-sub">Debit & Credit</div></div>
+      <div class="hbadge"><div class="hbadge-icon">🔎</div><div class="hbadge-title">Free Estimate</div><div class="hbadge-sub">No Obligation</div></div>
+      <div class="hbadge"><div class="hbadge-icon">⏱️</div><div class="hbadge-title">On-Time Delivery</div><div class="hbadge-sub">Guaranteed</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="trust-bar">
+  <div class="titem"><div class="tdot"></div>35 Years in Business</div>
+  <div class="titem"><div class="tdot"></div>Construction-Degreed Team</div>
+  <div class="titem"><div class="tdot"></div>Transparent Communication</div>
+  <div class="titem"><div class="tdot"></div>Custom Quotations</div>
+  <div class="titem"><div class="tdot"></div>Free Estimates</div>
+  <div class="titem"><div class="tdot"></div>Certified Contractors</div>
+</div>
+
+<!-- SERVICES -->
+<section class="sec svc-section" id="services">
+  <div class="sec-eyebrow"><div class="sec-line"></div><span class="sec-eye">What We Build & Fix</span></div>
+  <div class="sec-title">Our <span>Services</span></div>
+  <p class="sec-desc">22 specialized services across construction, remodeling, maintenance, and consultancy — all delivered by certified professionals.</p>
+  <div class="stabs">
+    <button class="stab active" onclick="showTab('construction',this)">Construction</button>
+    <button class="stab" onclick="showTab('remodeling',this)">Remodeling</button>
+    <button class="stab" onclick="showTab('maintenance',this)">Maintenance</button>
+    <button class="stab" onclick="showTab('consultancy',this)">Consultancy</button>
+  </div>
+  <div id="tab-construction" class="tab-panel active">
+    <div class="svc-card"><div class="svc-icon">🏠</div><h3>Custom Home Building</h3><p>Dream homes built to your exact spec — blueprints to final walkthrough.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🪵</div><h3>Deck Building</h3><p>Premium outdoor deck construction enhancing your home's livable space.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🏗️</div><h3>Foundations</h3><p>Solid structural foundations — the bedrock of every successful build.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🔩</div><h3>Framing</h3><p>Residential, commercial, and custom framing built to code.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🧱</div><h3>Siding</h3><p>Wide range of siding materials for residential and commercial properties.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🚗</div><h3>Garage Building</h3><p>Standalone, attached, or custom garage builds for every need.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🏚️</div><h3>Roofing</h3><p>Comprehensive roofing solutions for residential and commercial.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">📦</div><h3>Storage Units</h3><p>Versatile and secure storage unit construction built to last.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🏡</div><h3>Tiny Houses</h3><p>Charming, practical tiny home builds — smart living done right.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🏘️</div><h3>Additional Units</h3><p>ADUs and accessory structures that add real property value.</p><span class="svc-q">Get a Quote →</span></div>
+  </div>
+  <div id="tab-remodeling" class="tab-panel">
+    <div class="svc-card"><div class="svc-icon">🍳</div><h3>Kitchen Remodeling</h3><p>Transform your kitchen into a beautiful, functional modern space.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🛁</div><h3>Bathroom Remodeling</h3><p>Luxurious bathroom transformations tailored to your taste.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🏠</div><h3>Basement Remodeling</h3><p>Turning underused basements into standout living spaces.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🔨</div><h3>Home Remodeling</h3><p>Whole-home upgrades executed by experienced craftsmen.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🪟</div><h3>Window Installation</h3><p>Precision installation for efficiency and lasting performance.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🚪</div><h3>Door Installation</h3><p>Every door perfectly fitted — interior, exterior, and custom.</p><span class="svc-q">Get a Quote →</span></div>
+  </div>
+  <div id="tab-maintenance" class="tab-panel">
+    <div class="svc-card"><div class="svc-icon">⚡</div><h3>Electrical Maintenance</h3><p>Comprehensive electrical maintenance by safety-first electricians.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">💧</div><h3>Plumbing</h3><p>Expert plumbing from minor repairs to full system installs.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">❄️</div><h3>HVAC Maintenance</h3><p>Keep heating and cooling running at peak performance year-round.</p><span class="svc-q">Get a Quote →</span></div>
+  </div>
+  <div id="tab-consultancy" class="tab-panel">
+    <div class="svc-card"><div class="svc-icon">📋</div><h3>Construction Consultancy</h3><p>Expert guidance for residential and commercial construction.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">🎨</div><h3>Design Consultancy</h3><p>Creative, functional design grounded in real-world buildability.</p><span class="svc-q">Get a Quote →</span></div>
+    <div class="svc-card"><div class="svc-icon">💰</div><h3>Loan Consultancy</h3><p>Navigate financing with confidence — smart decisions every time.</p><span class="svc-q">Get a Quote →</span></div>
+  </div>
+</section>
+
+<!-- WHY US -->
+<section class="sec why-sec">
+  <div class="sec-eyebrow"><div class="sec-line"></div><span class="sec-eye">Why BID-Masters</span></div>
+  <div class="sec-title">Skilled. Certified. <span>Results-Driven.</span></div>
+  <p class="sec-desc">Military-grade discipline meets construction expertise — setting the standard across Greater Atlanta.</p>
+  <div class="why-grid">
+    <div class="why-card"><div class="why-num">01</div><h3>Unmatched Experience</h3><p>35 years spanning residential, commercial, and custom home projects. Fewer surprises, better outcomes for your build.</p></div>
+    <div class="why-card"><div class="why-num">02</div><h3>We Understand Your Needs</h3><p>A construction-degreed team committed to top-notch execution and transparent communication at every step.</p></div>
+    <div class="why-card"><div class="why-num">03</div><h3>We Respect Your Time</h3><p>On-time delivery every time. Efficient project management means your build finishes when it should.</p></div>
+  </div>
+  <div class="highlights">
+    <div class="hl"><div class="hl-dot"></div>Cards Accepted</div>
+    <div class="hl"><div class="hl-dot"></div>Top Craftsmanship</div>
+    <div class="hl"><div class="hl-dot"></div>Detail-Oriented</div>
+    <div class="hl"><div class="hl-dot"></div>Custom Quotation</div>
+    <div class="hl"><div class="hl-dot"></div>Transparent Comms</div>
+    <div class="hl"><div class="hl-dot"></div>Free Estimates</div>
+    <div class="hl"><div class="hl-dot"></div>Certified Contractors</div>
+    <div class="hl"><div class="hl-dot"></div>Exceptional Service</div>
+  </div>
+</section>
+
+<!-- ESTIMATOR -->
+<section class="est-sec" id="estimator">
+  <div class="est-header">
+    <div class="free-badge">100% Free · No Obligation</div>
+    <div class="sec-title" style="text-align:center">Project Cost <span>Estimator</span></div>
+    <p style="color:var(--muted);font-size:0.88rem;margin-top:0.4rem;line-height:1.6;text-align:center;max-width:480px;margin-left:auto;margin-right:auto">Get an instant ballpark. We follow up with a precise custom quote at no cost.</p>
+  </div>
+  <div class="est-form" style="max-width:860px;margin:0 auto">
+    <div class="fg"><label class="flabel">Your Name</label><input class="finput" type="text" placeholder="First & Last Name" id="ename" autocomplete="name"></div>
+    <div class="fg"><label class="flabel">Phone Number</label><input class="finput" type="tel" placeholder="(678) 000-0000" id="ephone" autocomplete="tel"></div>
+    <div class="fg"><label class="flabel">Email Address</label><input class="finput" type="email" placeholder="you@email.com" autocomplete="email"></div>
+    <div class="fg">
+      <label class="flabel">Service Category</label>
+      <select class="finput" id="ecat" onchange="handleCat()">
+        <option value="">— Select category —</option>
+        <option value="construction">Construction Services</option>
+        <option value="remodeling">Remodeling Services</option>
+        <option value="maintenance">Property Maintenance</option>
+        <option value="consultancy">Consultancy Services</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="flabel">Specific Service</label>
+      <select class="finput" id="eservice" onchange="updateEst()">
+        <option value="">— Select service —</option>
+      </select>
+    </div>
+    <div class="fg">
+      <label class="flabel">Property Type</label>
+      <select class="finput" id="eprop" onchange="updateEst()">
+        <option value="residential">Residential</option>
+        <option value="commercial">Light Commercial</option>
+        <option value="custom">Custom / Mixed Use</option>
+      </select>
+    </div>
+    <div class="fg full range-sec">
+      <div class="range-row"><label class="flabel">Square Footage</label><span class="range-val" id="sqftVal">1,500 sq ft</span></div>
+      <input type="range" min="200" max="6000" value="1500" step="50" id="sqft" oninput="document.getElementById('sqftVal').textContent=Number(this.value).toLocaleString()+' sq ft';updateEst()">
+      <div style="display:flex;justify-content:space-between;font-size:0.65rem;color:var(--muted);margin-top:0.4rem"><span>200 sq ft</span><span>6,000 sq ft</span></div>
+    </div>
+    <div class="scope-sec">
+      <div class="scope-title">Scope Add-Ons</div>
+      <div class="scope-grid">
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Demo / Site Clearing</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Permits & Inspections</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> High-End Finishes</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Design Consultancy</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Expedited Timeline</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Smart Home Rough-In</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Loan Consultancy</label>
+        <label class="scope-item"><input type="checkbox" onchange="updateEst()"> Landscaping / Grading</label>
+      </div>
+    </div>
+    <div class="est-result" id="estResult">
+      <div style="font-family:'Barlow Condensed',sans-serif;font-size:0.65rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem">📊 Estimate Snapshot</div>
+      <div class="result-top">
+        <div class="ritem"><div class="r-label">Cost Range</div><div class="r-val" id="rRange">—</div></div>
+        <div class="ritem"><div class="r-label">Timeline</div><div class="r-val" id="rTime">—</div></div>
+        <div class="ritem"><div class="r-label">Complexity</div><div class="r-val" id="rComplex">—</div></div>
+        <div class="ritem"><div class="r-label">Next Step</div><div class="r-val" id="rNext" style="font-size:0.9rem">—</div></div>
+      </div>
+      <div class="phase-bar">
+        <div class="phase-label"><span>Project Phases</span><span>Concept → Completion</span></div>
+        <div class="phase-track"><div class="phase-fill" id="phaseFill" style="width:25%"></div></div>
+      </div>
+      <div style="display:flex;gap:0.4rem;margin:0.4rem 0 0;font-size:0.65rem;color:var(--muted);flex-wrap:wrap"><span>📝 Plan</span><span>→</span><span>🏗️ Build</span><span>→</span><span>🔍 Inspect</span><span>→</span><span>✅ Handover</span></div>
+      <div class="result-note" id="rNote" style="margin-top:0.8rem"></div>
+    </div>
+    <div class="submit-row">
+      <button class="btn-est" onclick="submitEst()">Send My Estimate Request</button>
+      <button class="btn-rst" onclick="resetEst()">Reset</button>
+    </div>
+  </div>
+</section>
+
+<!-- AVAILABILITY -->
+<section class="sec avail-sec">
+  <div class="sec-eyebrow"><div class="sec-line"></div><span class="sec-eye">Office Hours</span></div>
+  <div class="sec-title">When We're <span>Available</span></div>
+  <div class="avail-grid">
+    <div class="avail-day closed"><div class="day-name">Sun</div><div class="day-hours">—</div><div class="day-badge badge-closed">Closed</div></div>
+    <div class="avail-day open"><div class="day-name">Mon</div><div class="day-hours">7AM–7PM</div><div class="day-badge badge-open">Open</div></div>
+    <div class="avail-day open"><div class="day-name">Tue</div><div class="day-hours">7AM–7PM</div><div class="day-badge badge-open">Open</div></div>
+    <div class="avail-day open"><div class="day-name">Wed</div><div class="day-hours">7AM–7PM</div><div class="day-badge badge-open">Open</div></div>
+    <div class="avail-day open"><div class="day-name">Thu</div><div class="day-hours">7AM–7PM</div><div class="day-badge badge-open">Open</div></div>
+    <div class="avail-day open"><div class="day-name">Fri</div><div class="day-hours">7AM–7PM</div><div class="day-badge badge-open">Open</div></div>
+    <div class="avail-day closed"><div class="day-name">Sat</div><div class="day-hours">—</div><div class="day-badge badge-closed">Closed</div></div>
+  </div>
+  <p style="margin-top:0.8rem;font-size:0.78rem;color:var(--muted);font-family:'Barlow Condensed',sans-serif;letter-spacing:0.06em">Mon – Fri &nbsp;·&nbsp; 7:00 AM – 7:00 PM &nbsp;·&nbsp; Weekends Closed</p>
+</section>
+
+<!-- CONTACT -->
+<section class="contact-sec" id="contact">
+  <div class="contact-inner">
+    <div class="sec-eyebrow"><div class="sec-line" style="background:rgba(255,255,255,0.4)"></div><span class="sec-eye" style="color:rgba(255,255,255,0.65)">Let's Build Together</span></div>
+    <div class="sec-title" style="color:#fff">Ready to Start <span style="color:var(--gold)">Your Project?</span></div>
+    <p style="color:rgba(255,255,255,0.72);font-size:0.9rem;line-height:1.6;margin-top:0.4rem">Our certified professionals are waiting. Let's turn your vision into a structure that stands for generations.</p>
+    <div class="contact-info">
+      <div><div class="cinfo-label">Call Us</div><div class="cinfo-val">📞 (678) 525-2506</div></div>
+      <div><div class="cinfo-label">Email</div><div class="cinfo-val">✉️ bidmastersofga@gmail.com</div></div>
+      <div><div class="cinfo-label">Address</div><div class="cinfo-val">📍 5805 State Bridge Rd, Ste G-313<br>Johns Creek, GA 30097</div></div>
+    </div>
+    <a href="tel:6785252506" class="call-btn">📞 Tap to Call: (678) 525-2506</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">BID-Masters of Georgia, Inc.<span>Building Impeccable Designs Since 1989</span></div>
+    <div class="footer-mid"><a href="tel:6785252506">(678) 525-2506</a> · <a href="mailto:bidmastersofga@gmail.com">bidmastersofga@gmail.com</a><br>5805 State Bridge Rd · Ste G-313 · Johns Creek, GA 30097</div>
+    <div class="footer-copy">© 2025 BID-Masters of Georgia, Inc.<span>Prototype — design review only</span></div>
+  </div>
+</footer>
+
+<script>
+/* ── HAMBURGER ── */
+var hbtn=document.getElementById('hbtn');
+var drawer=document.getElementById('drawer');
+hbtn.addEventListener('click',function(){
+  var open=drawer.classList.toggle('is-open');
+  hbtn.classList.toggle('is-open',open);
+  hbtn.setAttribute('aria-expanded',open);
+  drawer.setAttribute('aria-hidden',!open);
+});
+function closeDrawer(){
+  drawer.classList.remove('is-open');
+  hbtn.classList.remove('is-open');
+  hbtn.setAttribute('aria-expanded','false');
+  drawer.setAttribute('aria-hidden','true');
+}
+function scrollTo(id){
+  var el=document.getElementById(id);
+  if(el)el.scrollIntoView({behavior:'smooth'});
+}
+
+/* ── SERVICE TABS ── */
+function showTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(function(p){p.classList.remove('active')});
+  document.querySelectorAll('.stab').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-'+id).classList.add('active');
+  btn.classList.add('active');
+}
+
+/* ── ESTIMATOR ── */
+var serviceOptions={
+  construction:['Custom Home Building','Deck Building','Foundations','Framing','Siding','Garage Building','Roofing','Storage Units','Tiny Houses','Additional Units'],
+  remodeling:['Kitchen Remodeling','Bathroom Remodeling','Basement Remodeling','Home Remodeling','Window Installation','Door Installation'],
+  maintenance:['Electrical Maintenance','Plumbing','HVAC Maintenance'],
+  consultancy:['Construction Consultancy','Design Consultancy','Loan Consultancy']
+};
+var svcData={
+  'Custom Home Building':{base:150,ps:180,time:'12–24',c:'High'},
+  'Deck Building':{base:8,ps:45,time:'2–4',c:'Medium'},
+  'Foundations':{base:20,ps:60,time:'2–6',c:'High'},
+  'Framing':{base:10,ps:28,time:'2–5',c:'Medium'},
+  'Siding':{base:5,ps:18,time:'1–3',c:'Low'},
+  'Garage Building':{base:20,ps:80,time:'4–8',c:'Medium'},
+  'Roofing':{base:5,ps:12,time:'1–2',c:'Low'},
+  'Storage Units':{base:10,ps:55,time:'2–4',c:'Low'},
+  'Tiny Houses':{base:40,ps:220,time:'8–16',c:'High'},
+  'Additional Units':{base:60,ps:160,time:'10–20',c:'High'},
+  'Kitchen Remodeling':{base:15,ps:120,time:'3–8',c:'High'},
+  'Bathroom Remodeling':{base:8,ps:200,time:'2–5',c:'Medium'},
+  'Basement Remodeling':{base:10,ps:75,time:'4–10',c:'Medium'},
+  'Home Remodeling':{base:20,ps:90,time:'4–16',c:'High'},
+  'Window Installation':{base:3,ps:25,time:'1–2',c:'Low'},
+  'Door Installation':{base:2,ps:20,time:'1–2',c:'Low'},
+  'Electrical Maintenance':{base:2,ps:8,time:'1–3',c:'Medium'},
+  'Plumbing':{base:2,ps:10,time:'1–4',c:'Medium'},
+  'HVAC Maintenance':{base:2,ps:12,time:'1–3',c:'Medium'},
+  'Construction Consultancy':{base:3,ps:0,time:'1–2',c:'Low'},
+  'Design Consultancy':{base:2,ps:0,time:'1–2',c:'Low'},
+  'Loan Consultancy':{base:1,ps:0,time:'0.5–1',c:'Low'}
+};
+document.getElementById('ecat').addEventListener('change',function(){handleCat()});
+function handleCat(){
+  var sel=document.getElementById('ecat').value;
+  var svc=document.getElementById('eservice');
+  svc.innerHTML='<option value="">— Select service —</option>';
+  if(sel&&serviceOptions[sel]){
+    serviceOptions[sel].forEach(function(s){var o=document.createElement('option');o.value=s;o.textContent=s;svc.appendChild(o)});
+  }
+  updateEst();
+}
+function updateEst(){
+  var svc=document.getElementById('eservice').value;
+  var sqft=parseInt(document.getElementById('sqft').value)||1500;
+  var prop=document.getElementById('eprop').value;
+  var addons=document.querySelectorAll('.scope-grid input:checked').length;
+  var res=document.getElementById('estResult');
+  if(!svc){res.classList.remove('show');return}
+  var d=svcData[svc];
+  if(!d){res.classList.remove('show');return}
+  var low=d.base*1000+(d.ps>0?d.ps*sqft*0.85:0);
+  var high=d.base*1000+(d.ps>0?d.ps*sqft*1.15:0)+d.base*200;
+  if(prop==='commercial'){low*=1.25;high*=1.3}
+  if(prop==='custom'){low*=1.15;high*=1.2}
+  low+=addons*1500;high+=addons*3500;
+  function fmt(n){return n>=1000000?'$'+(Math.round(n/100000)/10)+'M':'$'+Math.round(n/1000)+'K'}
+  document.getElementById('rRange').textContent=fmt(low)+' – '+fmt(high);
+  document.getElementById('rTime').textContent=d.time+' wks';
+  document.getElementById('rComplex').textContent=d.c;
+  var nx={Low:'On-site Visit',Medium:'Detailed Quote',High:'Design Meeting'};
+  document.getElementById('rNext').textContent=nx[d.c];
+  var pct={Low:35,Medium:55,High:75};
+  document.getElementById('phaseFill').style.width=pct[d.c]+'%';
+  var note={Low:'Straightforward scope.',Medium:'Mid-complexity — site visit recommended before finalizing budget.',High:'High-complexity — design consultation and site assessment strongly advised.'};
+  document.getElementById('rNote').textContent=note[d.c]+(addons>0?' '+addons+' add-on(s) included in range.':'')+' BID-Masters confirms exact pricing before any work begins.';
+  res.classList.add('show');
+}
+function submitEst(){
+  var name=document.getElementById('ename').value;
+  var phone=document.getElementById('ephone').value;
+  var svc=document.getElementById('eservice').value;
+  if(!name||!phone||!svc){alert('Please fill in your name, phone, and select a service.');return}
+  alert('✅ Request Received!\n\nThank you, '+name+'! The BID-Masters team will call you at '+phone+' within one business day.\n\n📞 Or call now: (678) 525-2506');
+}
+function resetEst(){
+  document.getElementById('ename').value='';
+  document.getElementById('ephone').value='';
+  document.getElementById('ecat').value='';
+  document.getElementById('eservice').innerHTML='<option value="">— Select service —</option>';
+  document.getElementById('eprop').value='residential';
+  document.getElementById('sqft').value=1500;
+  document.getElementById('sqftVal').textContent='1,500 sq ft';
+  document.querySelectorAll('.scope-grid input').forEach(function(c){c.checked=false});
+  document.getElementById('estResult').classList.remove('show');
+}
+</script>
+</body>
+</html>
